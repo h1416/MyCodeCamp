@@ -12,6 +12,8 @@ namespace MyCodeCamp
 {
     public class Startup
     {
+        private IConfigurationRoot _config;
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -26,16 +28,17 @@ namespace MyCodeCamp
             }
 
             builder.AddEnvironmentVariables();
-            Configuration = builder.Build();
+            _config = builder.Build();
         }
-
-        public IConfigurationRoot Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container
         public void ConfigureServices(IServiceCollection services)
         {
+            // register our local config with IoC to use every where
+            services.AddSingleton(_config);
+
             // Add framework services.
-            services.AddApplicationInsightsTelemetry(Configuration);
+            services.AddApplicationInsightsTelemetry(_config);
 
             services.AddMvc();
         }
@@ -43,7 +46,7 @@ namespace MyCodeCamp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddConsole(_config.GetSection("Logging"));
             loggerFactory.AddDebug();
 
             app.UseApplicationInsightsRequestTelemetry();
