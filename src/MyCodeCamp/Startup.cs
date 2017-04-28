@@ -54,7 +54,8 @@ namespace MyCodeCamp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
         public void Configure(IApplicationBuilder app,
             IHostingEnvironment env,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            CampDbInitializer seeder)
         {
             loggerFactory.AddConsole(_config.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -65,8 +66,11 @@ namespace MyCodeCamp
 
             app.UseMvc(config =>
             {
-                config.MapRoute("MainAPIRout", "api/{controller}/{action}");
+                //config.MapRoute("MainAPIRout", "api/{controller}/{action}");
             });
+
+            // seed database async
+            seeder.Seed().Wait();
         }
     }
 }
