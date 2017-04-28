@@ -2,7 +2,7 @@
 
 namespace MyCodeCamp.Controllers
 {
-    [Route("api/camps")]
+    [Route("api/[controller]")]
     public class CampsController : Controller
     {
         [HttpGet("")]
