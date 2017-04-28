@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyCodeCamp.Data;
+using MyCodeCamp.Data.Entities;
 
 namespace MyCodeCamp.Controllers
 {
@@ -30,11 +31,14 @@ namespace MyCodeCamp.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult Get(int id, bool includeSpeakers = false)
         {
             try
             {
-                var camp = _repo.GetCamp(id);
+                Camp camp = null;
+
+                if (includeSpeakers) camp = _repo.GetCampWithSpeakers(id);
+                else camp = _repo.GetCamp(id);
 
                 if (camp == null) return NotFound($"Camp {id} was not found");
 
