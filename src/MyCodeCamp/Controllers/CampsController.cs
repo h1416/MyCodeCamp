@@ -16,25 +16,33 @@ namespace MyCodeCamp.Controllers
         [HttpGet("")]
         public IActionResult Get()
         {
-            var camps = _repo.GetAllCamps();
+            try
+            {
+                var camps = _repo.GetAllCamps();
 
-            return Ok(camps);
+                return Ok(camps);
+            }
+            catch
+            {
+            }
+
+            return BadRequest();
         }
 
+        [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
             try
             {
                 var camp = _repo.GetCamp(id);
 
-                if (camp == null) return NotFound();
+                if (camp == null) return NotFound($"Camp {id} was not found");
 
                 return Ok(camp);
 
             }
             catch
-            {
-                
+            {                
             }
 
             return BadRequest();
