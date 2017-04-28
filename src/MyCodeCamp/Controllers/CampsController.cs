@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyCodeCamp.Data;
 using MyCodeCamp.Data.Entities;
+using System;
 using System.Threading.Tasks;
 
 namespace MyCodeCamp.Controllers
@@ -53,7 +54,8 @@ namespace MyCodeCamp.Controllers
             return BadRequest();
         }
 
-        public async Task<IActionResult> Post(Camp model)
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody]Camp model)
         {
             try
             {
@@ -61,10 +63,11 @@ namespace MyCodeCamp.Controllers
 
                 if (await _repo.SaveAllAsync())
                 {
+                    var newUri = Url.Link("CampGet", new { id = model.Id });
                     return Created(newUri, model);
                 }
             }
-            catch (System.Exception)
+            catch (Exception)
             {
             }
 
