@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyCodeCamp.Data;
 using MyCodeCamp.Data.Entities;
+using System.Threading.Tasks;
 
 namespace MyCodeCamp.Controllers
 {
@@ -52,13 +53,13 @@ namespace MyCodeCamp.Controllers
             return BadRequest();
         }
 
-        public IActionResult Post(Camp model)
+        public async Task<IActionResult> Post(Camp model)
         {
             try
             {
                 _repo.Add(model);
 
-                if (_repo.SaveAll())
+                if (await _repo.SaveAllAsync())
                 {
                     return Ok(model);
                 }
