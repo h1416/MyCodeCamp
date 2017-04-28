@@ -61,7 +61,7 @@ namespace MyCodeCamp.Controllers
 
                 if (await _repo.SaveAllAsync())
                 {
-                    return Ok(model);
+                    return Created(newUri, model);
                 }
             }
             catch (System.Exception)
