@@ -51,6 +51,23 @@ namespace MyCodeCamp.Controllers
 
             return BadRequest();
         }
-        
+
+        public IActionResult Post(Camp model)
+        {
+            try
+            {
+                _repo.Add(model);
+
+                if (_repo.SaveAll())
+                {
+                    return Ok(model);
+                }
+            }
+            catch (System.Exception)
+            {
+            }
+
+            return BadRequest();
+        }        
     }
 }
