@@ -40,7 +40,10 @@ namespace MyCodeCamp
 
             // Register the camp repo to use later
             services.AddDbContext<CampContext>(ServiceLifetime.Scoped);
-            services.AddScoped<ICampRepository, CampRepository>();            
+            services.AddScoped<ICampRepository, CampRepository>();
+
+            // Register the db seeder class
+            services.AddTransient<CampDbInitializer>();
 
             // Add framework services.
             services.AddApplicationInsightsTelemetry(_config);
@@ -49,7 +52,9 @@ namespace MyCodeCamp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app,
+            IHostingEnvironment env,
+            ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(_config.GetSection("Logging"));
             loggerFactory.AddDebug();
