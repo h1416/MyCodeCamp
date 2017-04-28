@@ -53,7 +53,10 @@ namespace MyCodeCamp
 
             app.UseApplicationInsightsExceptionTelemetry();
 
-            app.UseMvc();
+            app.UseMvc(config =>
+            {
+                config.MapRoute("MainAPIRout", "api/{controller}/{action}");
+            });
         }
     }
 }
