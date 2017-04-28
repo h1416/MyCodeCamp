@@ -30,7 +30,7 @@ namespace MyCodeCamp.Controllers
             return BadRequest();
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "CampGet")]
         public IActionResult Get(int id, bool includeSpeakers = false)
         {
             try
