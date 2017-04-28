@@ -20,6 +20,25 @@ namespace MyCodeCamp.Controllers
 
             return Ok(camps);
         }
+
+        public IActionResult Get(int id)
+        {
+            try
+            {
+                var camp = _repo.GetCamp(id);
+
+                if (camp == null) return NotFound();
+
+                return Ok(camp);
+
+            }
+            catch
+            {
+                
+            }
+
+            return BadRequest();
+        }
         
     }
 }
