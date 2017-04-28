@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MyCodeCamp.Data;
 
 namespace MyCodeCamp
 {
@@ -36,6 +37,10 @@ namespace MyCodeCamp
         {
             // register our local config with IoC to use every where
             services.AddSingleton(_config);
+
+            // Register the camp repo to use later
+            services.AddDbContext<CampContext>(ServiceLifetime.Scoped);
+            services.AddScoped<ICampRepository, CampRepository>();            
 
             // Add framework services.
             services.AddApplicationInsightsTelemetry(_config);
