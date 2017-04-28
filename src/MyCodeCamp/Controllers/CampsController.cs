@@ -2,9 +2,10 @@
 
 namespace MyCodeCamp.Controllers
 {
+    [Route("api/camps")]
     public class CampsController : Controller
     {
-        [HttpGet("api/camps")]
+        [HttpGet("")]
         public IActionResult Get()
         {
             return Ok(new { Name = "HV", FavoriteColor = "Blue" });
