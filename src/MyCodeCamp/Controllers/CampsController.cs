@@ -109,5 +109,19 @@ namespace MyCodeCamp.Controllers
 
             return BadRequest("Couldn't update Camp");
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete()
+        {
+            try
+            {
+
+            }
+            catch (Exception)
+            {
+            }
+
+            return BadRequest("Could not delete Camp");
+        }
     }
 }
