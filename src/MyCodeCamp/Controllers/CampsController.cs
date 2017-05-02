@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MyCodeCamp.Data;
 using MyCodeCamp.Data.Entities;
+using MyCodeCamp.Models;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MyCodeCamp.Controllers
@@ -31,7 +33,7 @@ namespace MyCodeCamp.Controllers
             {
                 var camps = _repo.GetAllCamps();
 
-                return Ok(camps);
+                return Ok(_mapper.Map<IEnumerable<CampModel>>(camps));
             }
             catch
             {
@@ -52,7 +54,7 @@ namespace MyCodeCamp.Controllers
 
                 if (camp == null) return NotFound($"Camp {id} was not found");
 
-                return Ok(camp);
+                return Ok(_mapper.Map<CampModel>(camp));
 
             }
             catch
