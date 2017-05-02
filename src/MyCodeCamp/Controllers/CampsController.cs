@@ -81,6 +81,21 @@ namespace MyCodeCamp.Controllers
             }
 
             return BadRequest();
-        }        
+        }
+
+        public async Task<IActionResult> Put()
+        {
+            try
+            {
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            return BadRequest("Couldn't update Camp");
+        }
     }
 }
