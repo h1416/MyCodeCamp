@@ -83,7 +83,8 @@ namespace MyCodeCamp.Controllers
             return BadRequest();
         }
 
-        public async Task<IActionResult> Put()
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, [FromBody] Camp model)
         {
             try
             {
