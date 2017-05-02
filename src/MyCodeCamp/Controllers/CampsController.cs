@@ -90,6 +90,13 @@ namespace MyCodeCamp.Controllers
             {
                 var oldCamp = _repo.GetCamp(id);
                 if (oldCamp == null) return NotFound($"Could not find a camp with an ID of {id}");
+
+                //Map model to the oldCamp
+
+                if (await _repo.SaveAllAsync())
+                {
+                    return Ok(oldCamp);
+                }
             }
             catch (Exception)
             {
