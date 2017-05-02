@@ -115,7 +115,14 @@ namespace MyCodeCamp.Controllers
         {
             try
             {
+                var oldCamp = _repo.GetCamp(id);
+                if (oldCamp == null) return NotFound($"Could not find a camp with an ID of {id}");
 
+                _repo.Delete(oldCamp);
+                if (await _repo.SaveAllAsync())
+                {
+                    return Ok();
+                }
             }
             catch (Exception)
             {
