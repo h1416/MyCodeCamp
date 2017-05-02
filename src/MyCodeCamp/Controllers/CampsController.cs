@@ -92,6 +92,11 @@ namespace MyCodeCamp.Controllers
                 if (oldCamp == null) return NotFound($"Could not find a camp with an ID of {id}");
 
                 //Map model to the oldCamp
+                oldCamp.Name = model.Name ?? oldCamp.Name;
+                oldCamp.Description = model.Description ?? oldCamp.Description;
+                oldCamp.Location = model.Location ?? oldCamp.Location;
+                oldCamp.Length = model.Length > 0 ? model.Length: oldCamp.Length;
+                oldCamp.EventDate = model.EventDate != DateTime.MinValue ? model.EventDate : oldCamp.EventDate;
 
                 if (await _repo.SaveAllAsync())
                 {
