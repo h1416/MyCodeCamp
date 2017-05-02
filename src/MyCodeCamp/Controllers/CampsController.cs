@@ -105,8 +105,6 @@ namespace MyCodeCamp.Controllers
             }
             catch (Exception)
             {
-
-                throw;
             }
 
             return BadRequest("Couldn't update Camp");
