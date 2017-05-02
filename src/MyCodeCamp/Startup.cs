@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MyCodeCamp.Data;
+using AutoMapper;
 
 namespace MyCodeCamp
 {
@@ -44,6 +41,8 @@ namespace MyCodeCamp
 
             // Register the db seeder class
             services.AddTransient<CampDbInitializer>();
+
+            services.AddAutoMapper();
 
             // Add framework services.
             services.AddApplicationInsightsTelemetry(_config);

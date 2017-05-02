@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MyCodeCamp.Data;
 using MyCodeCamp.Data.Entities;
@@ -12,11 +13,15 @@ namespace MyCodeCamp.Controllers
     {
         private ILogger<CampsController> _logger;
         private ICampRepository _repo;
+        private IMapper _mapper;
 
-        public CampsController(ICampRepository repo, ILogger<CampsController> logger)
+        public CampsController(ICampRepository repo,
+            ILogger<CampsController> logger,
+            IMapper mapper)
         {
             _repo = repo;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpGet("")]
