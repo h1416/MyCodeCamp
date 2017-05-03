@@ -28,6 +28,9 @@ namespace MyCodeCamp.Models
                         PostalCode = c.LocationPostalCode,
                         Country = c.LocationCountry
                     }));
+
+            CreateMap<Speaker, SpeakerModel>()
+                .ReverseMap();
         }
     }
 }

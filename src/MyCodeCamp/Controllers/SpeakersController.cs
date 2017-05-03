@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MyCodeCamp.Data;
+using MyCodeCamp.Models;
+using System.Collections.Generic;
 
 namespace MyCodeCamp.Controllers
 {
@@ -28,7 +30,7 @@ namespace MyCodeCamp.Controllers
             {
                 var speakers = _repo.GetSpeakersByMoniker(moniker);
 
-                return Ok(speakers);
+                return Ok(_mapper.Map<IEnumerable<SpeakerModel>>(speakers));
             }
             catch
             {
@@ -46,7 +48,7 @@ namespace MyCodeCamp.Controllers
                 if (speaker == null) return NotFound();
                 if (speaker.Camp.Moniker != moniker) return BadRequest("Speaker not specified camp");
 
-                return Ok(speaker);
+                return Ok(_mapper.Map<SpeakerModel>(speaker));
             }
             catch
             {
