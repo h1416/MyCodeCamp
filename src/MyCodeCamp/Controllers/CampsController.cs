@@ -54,7 +54,7 @@ namespace MyCodeCamp.Controllers
 
                 if (camp == null) return NotFound($"Camp {id} was not found");
 
-                return Ok(_mapper.Map<CampModel>(camp));
+                return Ok(_mapper.Map<CampModel>(camp, opt => opt.Items["UrlHelper"] = this.Url));
 
             }
             catch
