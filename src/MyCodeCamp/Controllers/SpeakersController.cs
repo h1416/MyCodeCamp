@@ -22,9 +22,19 @@ namespace MyCodeCamp.Controllers
         }
 
         [HttpGet]
-        public void Get(string moniker)
+        public ActionResult Get(string moniker)
         {
+            try
+            {
+                var speakers = _repo.GetSpeakersByMoniker(moniker);
 
+                return Ok(speakers);
+            }
+            catch
+            {
+            }
+
+            return BadRequest();
         }
     }
 }
