@@ -42,17 +42,17 @@ namespace MyCodeCamp.Controllers
             return BadRequest();
         }
 
-        [HttpGet("{id}", Name = "CampGet")]
-        public IActionResult Get(int id, bool includeSpeakers = false)
+        [HttpGet("{moniker}", Name = "CampGet")]
+        public IActionResult Get(string moniker, bool includeSpeakers = false)
         {
             try
             {
                 Camp camp = null;
 
-                if (includeSpeakers) camp = _repo.GetCampWithSpeakers(id);
-                else camp = _repo.GetCamp(id);
+                if (includeSpeakers) camp = _repo.GetCampByMonikerWithSpeakers(moniker);
+                else camp = _repo.GetCampByMoniker(moniker);
 
-                if (camp == null) return NotFound($"Camp {id} was not found");
+                if (camp == null) return NotFound($"Camp {moniker} was not found");
 
                 return Ok(_mapper.Map<CampModel>(camp));
 
