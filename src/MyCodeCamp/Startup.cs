@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MyCodeCamp.Data;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 
 namespace MyCodeCamp
 {
@@ -42,6 +43,7 @@ namespace MyCodeCamp
             // Register the db seeder class
             services.AddTransient<CampDbInitializer>();
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddAutoMapper();
 
             // Add framework services.
