@@ -39,7 +39,7 @@ namespace MyCodeCamp.Controllers
             return BadRequest();
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "SpeakerGet")]
         public ActionResult Get(string moniker, int id)
         {
             try
