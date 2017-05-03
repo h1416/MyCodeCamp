@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MyCodeCamp.Data;
 using MyCodeCamp.Data.Entities;
+using MyCodeCamp.Filter;
 using MyCodeCamp.Models;
 using System;
 using System.Collections.Generic;
@@ -69,8 +70,6 @@ namespace MyCodeCamp.Controllers
         {
             try
             {
-                if (!ModelState.IsValid) return BadRequest(ModelState);
-
                 _logger.LogInformation("Creating a new code camp");
 
                 var camp = _mapper.Map<Camp>(model);
@@ -95,11 +94,10 @@ namespace MyCodeCamp.Controllers
         }
 
         [HttpPut("{moniker}")]
-        public async Task<IActionResult> Put(string moniker, [FromBody] Camp model)
+        public async Task<IActionResult> Put(string moniker, [FromBody]CampModel model)
         {
             try
             {
-                if (!ModelState.IsValid) return BadRequest(ModelState);
                 var oldCamp = _repo.GetCampByMoniker(moniker);
                 if (oldCamp == null) return NotFound($"Could not find a camp with an ID of {moniker}");
 
