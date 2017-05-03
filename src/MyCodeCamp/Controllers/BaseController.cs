@@ -5,10 +5,11 @@ namespace MyCodeCamp.Controllers
 {
     public abstract class BaseController : Controller
     {
+        public const string UrlHelper = "UrlHelper";
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             base.OnActionExecuting(context);
-            context.HttpContext.Items["UrlHelper"] = this.Url;
+            context.HttpContext.Items[UrlHelper] = this.Url;
         }
     }
 }
