@@ -36,5 +36,23 @@ namespace MyCodeCamp.Controllers
 
             return BadRequest();
         }
+
+        [HttpGet("{id}")]
+        public ActionResult Get(string moniker, int id)
+        {
+            try
+            {
+                var speaker = _repo.GetSpeaker(id);
+                if (speaker == null) return NotFound();
+                if (speaker.Camp.Moniker != moniker) return BadRequest("Speaker not specified camp");
+
+                return Ok(speaker);
+            }
+            catch
+            {
+            }
+
+            return BadRequest();
+        }
     }
 }
