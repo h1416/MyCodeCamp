@@ -69,6 +69,8 @@ namespace MyCodeCamp.Controllers
         {
             try
             {
+                if (!ModelState.IsValid) return BadRequest(ModelState);
+
                 _logger.LogInformation("Creating a new code camp");
 
                 var camp = _mapper.Map<Camp>(model);
@@ -92,24 +94,21 @@ namespace MyCodeCamp.Controllers
             return BadRequest();
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] Camp model)
+        [HttpPut("{moniker}")]
+        public async Task<IActionResult> Put(string moniker, [FromBody] Camp model)
         {
             try
             {
-                var oldCamp = _repo.GetCamp(id);
-                if (oldCamp == null) return NotFound($"Could not find a camp with an ID of {id}");
+                if (!ModelState.IsValid) return BadRequest(ModelState);
+                var oldCamp = _repo.GetCampByMoniker(moniker);
+                if (oldCamp == null) return NotFound($"Could not find a camp with an ID of {moniker}");
 
-                //Map model to the oldCamp
-                oldCamp.Name = model.Name ?? oldCamp.Name;
-                oldCamp.Description = model.Description ?? oldCamp.Description;
-                oldCamp.Location = model.Location ?? oldCamp.Location;
-                oldCamp.Length = model.Length > 0 ? model.Length: oldCamp.Length;
-                oldCamp.EventDate = model.EventDate != DateTime.MinValue ? model.EventDate : oldCamp.EventDate;
+                // map model to the old camp. this basically updates the old camp
+                _mapper.Map(model, oldCamp);
 
                 if (await _repo.SaveAllAsync())
                 {
-                    return Ok(oldCamp);
+                    return Ok(_mapper.Map<CampModel>(oldCamp));
                 }
             }
             catch (Exception)
@@ -119,13 +118,13 @@ namespace MyCodeCamp.Controllers
             return BadRequest("Couldn't update Camp");
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpDelete("{moniker}")]
+        public async Task<IActionResult> Delete(string moniker)
         {
             try
             {
-                var oldCamp = _repo.GetCamp(id);
-                if (oldCamp == null) return NotFound($"Could not find a camp with an ID of {id}");
+                var oldCamp = _repo.GetCampByMoniker(moniker);
+                if (oldCamp == null) return NotFound($"Could not find a camp with an ID of {moniker}");
 
                 _repo.Delete(oldCamp);
                 if (await _repo.SaveAllAsync())
