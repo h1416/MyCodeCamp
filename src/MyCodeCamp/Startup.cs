@@ -83,6 +83,13 @@ namespace MyCodeCamp
 
             app.UseApplicationInsightsExceptionTelemetry();
 
+            app.UseCors(cfg =>
+            {
+                cfg.AllowAnyHeader();
+                cfg.AllowAnyMethod();
+                cfg.AllowAnyOrigin();
+            });
+
             app.UseMvc(config =>
             {
                 //config.MapRoute("MainAPIRout", "api/{controller}/{action}");
