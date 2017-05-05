@@ -6,7 +6,7 @@ namespace MyCodeCamp.Models
     {
         public string Url { get; set; }
         [Required]
-        [MaxLength(5)]
+        [MinLength(5)]
         public string Name { get; set; }
         public string CompanyName { get; set; }
         public string PhoneNumber { get; set; }

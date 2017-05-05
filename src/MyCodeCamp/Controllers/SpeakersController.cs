@@ -60,6 +60,7 @@ namespace MyCodeCamp.Controllers
             return BadRequest();
         }
 
+        [HttpPost]
         public async Task<ActionResult> Post(string moniker, [FromBody]SpeakerModel model)
         {
             try
@@ -87,15 +88,21 @@ namespace MyCodeCamp.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put(string monikor, int id,
+        public async Task<ActionResult> Put(string moniker, int id,
             [FromBody] SpeakerModel model)
         {
             try
             {
                 var speaker = _repo.GetSpeaker(id);
-                if (speaker == null) return NotFound();
-                if (speaker.Camp.Moniker != monikor) return BadRequest("Speaker and Camp do not match");
+                if (speaker == null) return NotFound($"Could not find a speaker with an ID of {id}");
+                if (speaker.Camp.Moniker != moniker) return BadRequest("Speaker and Camp do not match");
 
+                _mapper.Map(model, speaker);
+
+                if (await _repo.SaveAllAsync())
+                {
+                    return Ok(_mapper.Map<SpeakerModel>(speaker));
+                }
             }
             catch (Exception ex)
             {
@@ -103,6 +110,24 @@ namespace MyCodeCamp.Controllers
             }
 
             return BadRequest("Could not update speaker");
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(string moniker, int id)
+        {
+            try
+            {
+                var speaker = _repo.GetSpeaker(id);
+                if (speaker == null) return NotFound($"Could not find a speaker with an ID of {id}");
+                if (speaker.Camp.Moniker != moniker) return BadRequest("Speaker and Camp do not match");
+
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Exception thrown while deleting speaker: {ex}");
+            }
+            return BadRequest("Could not delete speaker");
         }
     }
 }
