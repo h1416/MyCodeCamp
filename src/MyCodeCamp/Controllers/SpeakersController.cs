@@ -121,7 +121,12 @@ namespace MyCodeCamp.Controllers
                 if (speaker == null) return NotFound($"Could not find a speaker with an ID of {id}");
                 if (speaker.Camp.Moniker != moniker) return BadRequest("Speaker and Camp do not match");
 
+                _repo.Delete(speaker);
 
+                if (await _repo.SaveAllAsync())
+                {
+                    return Ok();
+                }
             }
             catch (Exception ex)
             {
