@@ -13,6 +13,7 @@ namespace MyCodeCamp
     public class Startup
     {
         private IConfigurationRoot _config;
+        private IHostingEnvironment _env;
 
         public Startup(IHostingEnvironment env)
         {
@@ -29,6 +30,7 @@ namespace MyCodeCamp
 
             builder.AddEnvironmentVariables();
             _config = builder.Build();
+            _env = env;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container
@@ -52,6 +54,11 @@ namespace MyCodeCamp
 
             services.AddMvc(opt =>
             {
+                if (!_env.IsProduction())
+                {
+                    opt.SslPort = 44316;
+                }
+
                 opt.Filters.Add(new RequireHttpsAttribute());
             })
                 .AddJsonOptions(opt =>
