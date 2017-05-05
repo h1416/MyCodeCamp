@@ -87,7 +87,8 @@ namespace MyCodeCamp
             {
                 cfg.AllowAnyHeader();
                 cfg.AllowAnyMethod();
-                cfg.AllowAnyOrigin();
+                //cfg.AllowAnyOrigin(); // allow any origin
+                cfg.WithHeaders("http://wildermuth.com"); // allow only specified origin(s)
             });
 
             app.UseMvc(config =>
