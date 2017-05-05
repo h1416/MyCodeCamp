@@ -52,6 +52,8 @@ namespace MyCodeCamp
             // Add framework services.
             services.AddApplicationInsightsTelemetry(_config);
 
+            services.AddCors();
+
             services.AddMvc(opt =>
             {
                 if (!_env.IsProduction())
