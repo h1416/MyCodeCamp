@@ -2,9 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using MyCodeCamp.Data;
 using MyCodeCamp.Data.Entities;
+using MyCodeCamp.Filter;
+using MyCodeCamp.Models;
 
 namespace MyCodeCamp.Controllers
 {
+    [Route("api/[controller]")]
     public class AuthController : Controller
     {
         private CampContext _context;
@@ -14,6 +17,12 @@ namespace MyCodeCamp.Controllers
         {
             _context = context;
             _signInMgr = signInMgr;
+        }
+
+        [ValidateModel]
+        [HttpPost("/login")]
+        public ActionResult Login([FromBody]CredentialModel model)
+        {
         }
     }
 }
