@@ -7,6 +7,8 @@ using MyCodeCamp.Data;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MyCodeCamp.Data.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace MyCodeCamp
 {
@@ -51,6 +53,9 @@ namespace MyCodeCamp
 
             // Add framework services.
             services.AddApplicationInsightsTelemetry(_config);
+
+            services.AddIdentity<CampUser, IdentityRole>()
+                .AddEntityFrameworkStores<CampContext>();
 
             services.AddCors(cfg =>
             {
