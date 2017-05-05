@@ -52,7 +52,22 @@ namespace MyCodeCamp
             // Add framework services.
             services.AddApplicationInsightsTelemetry(_config);
 
-            services.AddCors();
+            services.AddCors(cfg =>
+            {
+                cfg.AddPolicy("Wildermuth", corsPolicyBuilder =>
+                {
+                    corsPolicyBuilder.AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .WithOrigins("http://wildermuth.com");
+                });
+
+                cfg.AddPolicy("AnyGET", corsPolicyBuilder =>
+                {
+                    corsPolicyBuilder.AllowAnyHeader()
+                    .WithMethods("GET")
+                    .AllowAnyOrigin();
+                });
+            });
 
             services.AddMvc(opt =>
             {
