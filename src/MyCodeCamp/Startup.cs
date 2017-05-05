@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using MyCodeCamp.Data;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MyCodeCamp
 {
@@ -49,8 +50,11 @@ namespace MyCodeCamp
             // Add framework services.
             services.AddApplicationInsightsTelemetry(_config);
 
-            services.AddMvc().
-                AddJsonOptions(opt =>
+            services.AddMvc(opt =>
+            {
+                opt.Filters.Add(new RequireHttpsAttribute());
+            })
+                .AddJsonOptions(opt =>
                 {
                     opt.SerializerSettings.ReferenceLoopHandling =
                         Newtonsoft.Json.ReferenceLoopHandling.Ignore;
