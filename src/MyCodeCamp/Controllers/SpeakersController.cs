@@ -92,6 +92,9 @@ namespace MyCodeCamp.Controllers
         {
             try
             {
+                var speaker = _repo.GetSpeaker(id);
+                if (speaker == null) return NotFound();
+                if (speaker.Camp.Moniker != monikor) return BadRequest("Speaker and Camp do not match");
 
             }
             catch (Exception ex)
