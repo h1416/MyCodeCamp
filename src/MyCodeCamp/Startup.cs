@@ -98,13 +98,13 @@ namespace MyCodeCamp
 
             app.UseApplicationInsightsExceptionTelemetry();
 
-            app.UseCors(cfg =>
-            {
-                cfg.AllowAnyHeader();
-                cfg.AllowAnyMethod();
-                //cfg.AllowAnyOrigin(); // allow any origin
-                cfg.WithHeaders("http://wildermuth.com"); // allow only specified origin(s)
-            });
+            //app.UseCors(cfg =>
+            //{
+            //    cfg.AllowAnyHeader();
+            //    cfg.AllowAnyMethod();
+            //    //cfg.AllowAnyOrigin(); // allow any origin
+            //    cfg.WithHeaders("http://wildermuth.com"); // allow only specified origin(s)
+            //});
 
             app.UseMvc(config =>
             {
