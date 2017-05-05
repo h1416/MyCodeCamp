@@ -111,6 +111,9 @@ namespace MyCodeCamp
             //    cfg.WithHeaders("http://wildermuth.com"); // allow only specified origin(s)
             //});
 
+            // use identity must be before use mvc
+            app.UseIdentity();
+
             app.UseMvc(config =>
             {
                 //config.MapRoute("MainAPIRout", "api/{controller}/{action}");
