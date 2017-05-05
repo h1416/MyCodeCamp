@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MyCodeCamp.Models
 {
@@ -18,5 +19,6 @@ namespace MyCodeCamp.Models
         [MaxLength(45)]
         public string Bio { get; set; }
         public string HeadShotUrl { get; set; }
+        public ICollection<TalkModel> Talks { get; set; }
     }
 }
