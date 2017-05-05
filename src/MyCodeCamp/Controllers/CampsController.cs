@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MyCodeCamp.Data;
 using MyCodeCamp.Data.Entities;
-using MyCodeCamp.Filter;
 using MyCodeCamp.Models;
 using System;
 using System.Collections.Generic;
