@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using MyCodeCamp.Data;
 using MyCodeCamp.Data.Entities;
 using MyCodeCamp.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -48,7 +49,7 @@ namespace MyCodeCamp.Controllers
             {
                 var speaker = _repo.GetSpeaker(id);
                 if (speaker == null) return NotFound();
-                if (speaker.Camp.Moniker != moniker) return BadRequest("Speaker not specified camp");
+                if (speaker.Camp.Moniker != moniker) return BadRequest("Speaker not in specified camp");
 
                 return Ok(_mapper.Map<SpeakerModel>(speaker));
             }
@@ -77,11 +78,28 @@ namespace MyCodeCamp.Controllers
                     return Created(url, _mapper.Map<SpeakerModel>(speaker));
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                _logger.LogError($"Exception thrown while adding speaker: {ex}");
             }
 
-            return BadRequest();
+            return BadRequest("Could not add new speaker");
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Put(string monikor, int id,
+            [FromBody] SpeakerModel model)
+        {
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Exception thrown while updating speaker: {ex}");
+            }
+
+            return BadRequest("Could not update speaker");
         }
     }
 }
