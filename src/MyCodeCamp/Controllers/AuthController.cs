@@ -6,6 +6,7 @@ using MyCodeCamp.Data.Entities;
 using MyCodeCamp.Filter;
 using MyCodeCamp.Models;
 using System;
+using System.Threading.Tasks;
 
 namespace MyCodeCamp.Controllers
 {
@@ -24,11 +25,15 @@ namespace MyCodeCamp.Controllers
 
         [HttpPost("api/auth/login")]
         [ValidateModel]        
-        public ActionResult Login([FromBody]CredentialModel model)
+        public async Task<ActionResult> Login([FromBody]CredentialModel model)
         {
             try
             {
-
+                var result = await _signInMgr.PasswordSignInAsync(model.UserName, model.Password, false, false);
+                if (result.Succeeded)
+                {
+                    return Ok();
+                }
             }
             catch (Exception ex)
             {
