@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MyCodeCamp.Data;
@@ -18,14 +19,17 @@ namespace MyCodeCamp.Controllers
         private ILogger<SpeakersController> _logger;
         private IMapper _mapper;
         private ICampRepository _repo;
+        private UserManager<CampUser> _userMgr;
 
         public SpeakersController(ICampRepository repo,
             ILogger<SpeakersController> logger,
-            IMapper mapper)
+            IMapper mapper,
+            UserManager<CampUser> userMgr)
         {
             _repo = repo;
             _logger = logger;
             _mapper = mapper;
+            _userMgr = userMgr;
         }
 
         [HttpGet]
@@ -73,12 +77,18 @@ namespace MyCodeCamp.Controllers
                 var speaker = _mapper.Map<Speaker>(model);
                 speaker.Camp = camp;
 
-                _repo.Add(speaker);
-
-                if (await _repo.SaveAllAsync())
+                var campUser = await _userMgr.FindByNameAsync(this.User.Identity.Name);
+                if (campUser != null)
                 {
-                    var url = Url.Link("SpeakerGet", new { moniker = camp.Moniker, id = speaker.Id });
-                    return Created(url, _mapper.Map<SpeakerModel>(speaker));
+                    speaker.User = campUser;
+
+                    _repo.Add(speaker);
+
+                    if (await _repo.SaveAllAsync())
+                    {
+                        var url = Url.Link("SpeakerGet", new { moniker = camp.Moniker, id = speaker.Id });
+                        return Created(url, _mapper.Map<SpeakerModel>(speaker));
+                    }
                 }
             }
             catch (Exception ex)
@@ -98,6 +108,8 @@ namespace MyCodeCamp.Controllers
                 var speaker = _repo.GetSpeaker(id);
                 if (speaker == null) return NotFound($"Could not find a speaker with an ID of {id}");
                 if (speaker.Camp.Moniker != moniker) return BadRequest("Speaker and Camp do not match");
+
+                if (speaker.User.UserName != this.User.Identity.Name) return Forbid();
 
                 _mapper.Map(model, speaker);
 
@@ -122,6 +134,8 @@ namespace MyCodeCamp.Controllers
                 var speaker = _repo.GetSpeaker(id);
                 if (speaker == null) return NotFound($"Could not find a speaker with an ID of {id}");
                 if (speaker.Camp.Moniker != moniker) return BadRequest("Speaker and Camp do not match");
+
+                if (speaker.User.UserName != this.User.Identity.Name) return Forbid();
 
                 _repo.Delete(speaker);
 
