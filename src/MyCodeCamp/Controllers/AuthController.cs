@@ -9,7 +9,6 @@ using System;
 
 namespace MyCodeCamp.Controllers
 {
-    [Route("api/[controller]")]
     public class AuthController : Controller
     {
         private CampContext _context;
@@ -23,7 +22,7 @@ namespace MyCodeCamp.Controllers
             _logger = logger;
         }
 
-        [HttpPost("/login")]
+        [HttpPost("api/auth/login")]
         [ValidateModel]        
         public ActionResult Login([FromBody]CredentialModel model)
         {
