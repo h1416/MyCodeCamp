@@ -49,6 +49,7 @@ namespace MyCodeCamp
 
             // Register the db seeder class
             services.AddTransient<CampDbInitializer>();
+            services.AddTransient<CampIdentityInitializer>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddAutoMapper();
@@ -126,7 +127,8 @@ namespace MyCodeCamp
         public void Configure(IApplicationBuilder app,
             IHostingEnvironment env,
             ILoggerFactory loggerFactory,
-            CampDbInitializer seeder)
+            CampDbInitializer seeder,
+            CampIdentityInitializer identitySeeder)
         {
             loggerFactory.AddConsole(_config.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -153,6 +155,7 @@ namespace MyCodeCamp
 
             // seed database async
             seeder.Seed().Wait();
+            identitySeeder.Seed().Wait();
         }
     }
 }
