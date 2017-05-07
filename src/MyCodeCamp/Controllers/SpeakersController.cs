@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MyCodeCamp.Data;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace MyCodeCamp.Controllers
 {
+    [Authorize]
     [Route("api/camps/{moniker}/speakers")]
     public class SpeakersController : BaseController
     {
