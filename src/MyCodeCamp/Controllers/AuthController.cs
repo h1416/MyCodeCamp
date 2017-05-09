@@ -12,6 +12,7 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using System.Linq;
 
 namespace MyCodeCamp.Controllers
 {
@@ -70,11 +71,17 @@ namespace MyCodeCamp.Controllers
                 {
                     if (_hasher.VerifyHashedPassword(user, user.PasswordHash, model.Password) == PasswordVerificationResult.Success)
                     {
+                        var userClaims = await _userMgr.GetClaimsAsync(user);
                         var claims = new[]
                         {
                             new Claim(JwtRegisteredClaimNames.Sub, user.UserName), // sub is username
-                            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()) // Jti is a new Guid for uniqueness
+                            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // Jti is a new Guid for uniqueness
+                            new Claim(JwtRegisteredClaimNames.GivenName, user.FirstName),
+                            new Claim(JwtRegisteredClaimNames.FamilyName, user.LastName),
+                            new Claim(JwtRegisteredClaimNames.Email, user.Email)
                         };
+
+                        claims.Union(userClaims);
 
                         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
                         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
