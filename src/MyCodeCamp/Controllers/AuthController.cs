@@ -82,6 +82,12 @@ namespace MyCodeCamp.Controllers
                             expires: DateTime.UtcNow.AddMinutes(15),
                             signingCredentials: creds
                             );
+
+                        return Ok(new
+                        {
+                            token = new JwtSecurityTokenHandler().WriteToken(token),
+                            expiration = token.ValidTo,                             
+                        });
                     }
 
                 }
