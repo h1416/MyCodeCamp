@@ -92,6 +92,12 @@ namespace MyCodeCamp
                     };
             });
 
+            // create a policy to authorize curtain users
+            services.AddAuthorization(cfg =>
+            {
+                cfg.AddPolicy("SuperUsers", p => p.RequireClaim("SuperUser", "True"));
+            });
+
             services.AddCors(cfg =>
             {
                 cfg.AddPolicy("Wildermuth", corsPolicyBuilder =>
