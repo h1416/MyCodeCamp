@@ -9,6 +9,8 @@ using System;
 using System.Threading.Tasks;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace MyCodeCamp.Controllers
 {
@@ -70,11 +72,14 @@ namespace MyCodeCamp.Controllers
                             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()) // Jti is a new Guid for uniqueness
                         };
 
+                        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("VERYLONGKEYVALUETHATISSUCURE"));
+                        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
                         var token = new JwtSecurityToken(
                             issuer: "http://mycodecamp.org", // the website that generate the token
                             audience: "http://mycodecamp.org", // the website that going to accept the token
-                            claims: ClaimsIdentityOptions,
-                            expires: DateTime.UtcNow.Add(15),
+                            claims: claims,
+                            expires: DateTime.UtcNow.AddMinutes(15),
                             signingCredentials: creds
                             );
                     }
