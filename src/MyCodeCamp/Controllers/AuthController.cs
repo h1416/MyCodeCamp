@@ -7,6 +7,8 @@ using MyCodeCamp.Filter;
 using MyCodeCamp.Models;
 using System;
 using System.Threading.Tasks;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace MyCodeCamp.Controllers
 {
@@ -62,7 +64,19 @@ namespace MyCodeCamp.Controllers
                 {
                     if (_hasher.VerifyHashedPassword(user, user.PasswordHash, model.Password) == PasswordVerificationResult.Success)
                     {
+                        var claims = new[]
+                        {
+                            new Claim(JwtRegisteredClaimNames.Sub, user.UserName), // sub is username
+                            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()) // Jti is a new Guid
+                        };
 
+                        var token = new JwtSecurityToken(
+                            issuer: "http://mycodecamp.org", // the website that generate the token
+                            audience: "http://mycodecamp.org", // the website that going to accept the token
+                            claims: ClaimsIdentityOptions,
+                            expires: DateTime.UtcNow.Add(15),
+                            signingCredentials: creds
+                            );
                     }
 
                 }
