@@ -56,7 +56,7 @@ namespace MyCodeCamp.Controllers
         }
 
         [ValidateModel]
-        [HttpPost("api/auth/login")]
+        [HttpPost("api/auth/token")]
         public async Task<ActionResult> CreateToken([FromBody]CredentialModel model)
         {
             try
