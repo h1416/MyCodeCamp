@@ -15,12 +15,20 @@ namespace MyCodeCamp.Controllers
         private CampContext _context;
         private ILogger<AuthController> _logger;
         private SignInManager<CampUser> _signInMgr;
+        private UserManager<CampUser> _userMgr;
+        private IPasswordHasher<CampUser> _hasher;
 
-        public AuthController(CampContext context, SignInManager<CampUser> signInMgr, ILogger<AuthController> logger)
+        public AuthController(CampContext context,
+            SignInManager<CampUser> signInMgr,
+            UserManager<CampUser> userMgr,
+            IPasswordHasher<CampUser> hasher,
+            ILogger<AuthController> logger)
         {
             _context = context;
             _signInMgr = signInMgr;
             _logger = logger;
+            _userMgr = userMgr;
+            _hasher = hasher;
         }
 
         [HttpPost("api/auth/login")]
@@ -49,14 +57,23 @@ namespace MyCodeCamp.Controllers
         {
             try
             {
+                var user = await _userMgr.FindByNameAsync(model.UserName);
+                if (user != null)
+                {
+                    if (_hasher.VerifyHashedPassword(user, user.PasswordHash, model.Password) == PasswordVerificationResult.Success)
+                    {
 
+                    }
+
+                }
             }
             catch (Exception ex)
             {
 
                 _logger.LogError($"Exception thown while creating JWT: {ex}");
             }
-            
+
+            return BadRequest("Fail to generate token");
         }
     }
 }
