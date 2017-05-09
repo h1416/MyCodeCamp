@@ -100,7 +100,6 @@ namespace MyCodeCamp.Controllers
                             expiration = token.ValidTo,                             
                         }); // copy and paste the token into the jwt.io to verify its info
                     }
-
                 }
             }
             catch (Exception ex)
