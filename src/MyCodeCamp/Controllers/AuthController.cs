@@ -67,7 +67,7 @@ namespace MyCodeCamp.Controllers
                         var claims = new[]
                         {
                             new Claim(JwtRegisteredClaimNames.Sub, user.UserName), // sub is username
-                            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()) // Jti is a new Guid
+                            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()) // Jti is a new Guid for uniqueness
                         };
 
                         var token = new JwtSecurityToken(
