@@ -42,5 +42,21 @@ namespace MyCodeCamp.Controllers
 
             return BadRequest("Failed to login");
         }
+
+        [ValidateModel]
+        [HttpPost("api/auth/login")]
+        public async Task<ActionResult> CreateToken([FromBody]CredentialModel model)
+        {
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogError($"Exception thown while creating JWT: {ex}");
+            }
+            
+        }
     }
 }
