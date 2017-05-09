@@ -98,7 +98,7 @@ namespace MyCodeCamp.Controllers
                         {
                             token = new JwtSecurityTokenHandler().WriteToken(token),
                             expiration = token.ValidTo,                             
-                        });
+                        }); // copy and paste the token into the jwt.io to verify its info
                     }
 
                 }
