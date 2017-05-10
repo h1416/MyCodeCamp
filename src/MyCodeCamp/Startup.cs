@@ -98,6 +98,17 @@ namespace MyCodeCamp
                 cfg.AddPolicy("SuperUsers", p => p.RequireClaim("SuperUser", "True"));
             });
 
+            // MVC api versionsing
+            services.AddApiVersioning(cfg =>
+            {
+                //every api without version will have default version 1.1
+                cfg.DefaultApiVersion = new ApiVersion(1, 1);
+                // find the default version when version is unspecified, this allow user not enter a version
+                cfg.AssumeDefaultVersionWhenUnspecified = true;
+                // this will send a header that will tell which versions are api
+                cfg.ReportApiVersions = true;
+            });
+
             services.AddCors(cfg =>
             {
                 cfg.AddPolicy("Wildermuth", corsPolicyBuilder =>
